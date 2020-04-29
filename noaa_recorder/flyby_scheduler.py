@@ -40,7 +40,8 @@ def main():
             next_passes.append(next_pass)
         # may contain currently happening passes so filter out by aos and select the next
         next_pass = sorted(
-            filter(lambda x: x.aos > datetime.now(), next_passes), key=lambda n: n.aos
+            filter(lambda x: x.aos > datetime.utcnow(), next_passes),
+            key=lambda n: n.aos,
         )[0]
 
         print(
@@ -57,7 +58,7 @@ def main():
         # )
         # sched.start()
 
-        t_to_flyby = next_pass.aos - datetime.now()
+        t_to_flyby = next_pass.aos - datetime.utcnow()
 
         timer = Timer(t_to_flyby.seconds, get_noaa_img, [next_pass])
         timer.start()
